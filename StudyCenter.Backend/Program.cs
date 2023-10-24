@@ -12,8 +12,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddTransient<IAccountService, AccountService>();
-builder.Services.AddTransient<IStudyService, StudyService>();
+//builder.Services.AddTransient<IAccountService, AccountService>();
+//builder.Services.AddTransient<IStudyService, StudyService>();
 
 builder.Services.AddDbContext<StudyDbContext>(op =>
                 op.UseSqlServer(builder.Configuration.GetConnectionString("StudyConnectionString")));
