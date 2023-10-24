@@ -11,7 +11,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<StudyDbContext>(op =>
-                op.UseSqlServer(builder.Configuration.GetConnectionString("StudyConectionString")));
+                op.UseSqlServer(builder.Configuration.GetConnectionString("StudyConnectionString")));
 
 var app = builder.Build();
 
