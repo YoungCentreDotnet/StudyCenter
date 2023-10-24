@@ -1,6 +1,6 @@
 ﻿namespace StudyCenter.Backend.Repositories.StudyRepository
 {
-    public class StudyService
+    public class StudyService: IStudyService
     {
     }
 }

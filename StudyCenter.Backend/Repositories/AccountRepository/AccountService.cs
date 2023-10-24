@@ -1,6 +1,6 @@
 ﻿namespace StudyCenter.Backend.Repositories.AccountRepository
 {
-    public class AccountService
+    public class AccountService: IAccountService
     {
     }
 }
