@@ -25,7 +25,7 @@ namespace StudyCenter.Backend.Controllers
             }
             return Ok(state.Message);
         }
-        [HttpPost]
+        [HttpGet]
         public async Task<IActionResult> GetById(int id)
         {
             var state = await _admin.GetByIdAsync(id);
@@ -34,7 +34,12 @@ namespace StudyCenter.Backend.Controllers
                 return Ok(state.Data);
 
             }
-            return Ok(state.Message);
+            if (state.Code == 500)
+            {
+                return BadRequest(state.Data);
+
+            }
+            return NotFound(state.Message);
 
         }
 

@@ -15,6 +15,8 @@ namespace StudyCenter.Backend.Repositories.Account
 
         public async Task<StateResponse<IEnumerable<Admin>>> GetAllDataAsync()
         {
+            Admin admin = new Admin();
+            List<Admin> admins = new List<Admin>(); 
             StateResponse<IEnumerable<Admin>> stateResponse = new StateResponse<IEnumerable<Admin>>();
             try
             {
@@ -37,8 +39,8 @@ namespace StudyCenter.Backend.Repositories.Account
             catch
             {
 
-                stateResponse.Code = (int)StatusResponse.Success;
-                stateResponse.Message = nameof (StatusResponse.Success);
+                stateResponse.Code = (int)StatusResponse.Server_Eror;
+                stateResponse.Message = nameof (StatusResponse.Server_Eror);
                 stateResponse.Data = null;
             }
             return stateResponse;
