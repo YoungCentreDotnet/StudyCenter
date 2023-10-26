@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using StudyCenter.Backend.DataLayer;
-using StudyCenter.Backend.Repositories.AccountRepository;
+using StudyCenter.Backend.Repositories.Account;
 using StudyCenter.Backend.Repositories.StudyRepository;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +14,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//builder.Services.AddTransient<IAccountService, AccountService>();
-//builder.Services.AddTransient<IStudyService, StudyService>();
+builder.Services.AddTransient<IStudyService, StudyService>();
+
+builder.Services.AddScoped<IAdminAccountService, AdminAccountService>();
 
 builder.Services.AddDbContext<StudyDbContext>(op =>
                 op.UseSqlServer(builder.Configuration.GetConnectionString("StudyConnectionString")));
@@ -26,6 +29,25 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+
+//dastur ishlaganda xatolik xabarini berish
+app.UseExceptionHandler(
+    option =>
+    {
+        option.Run(
+            async context =>
+            {
+                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                var ex = context.Features.Get<IExceptionHandlerFeature>();
+                if (ex != null)
+                {
+                    await context.Response.WriteAsync(ex.Error.Message);
+
+                }
+            });
+    }
+    );
 
 app.UseHttpsRedirection();
 
