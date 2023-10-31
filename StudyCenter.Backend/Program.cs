@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using StudyCenter.Backend.DataLayer;
 using StudyCenter.Backend.Repositories.Account;
 using StudyCenter.Backend.Repositories.StudyRepository;
@@ -8,6 +9,7 @@ using System.Net;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
