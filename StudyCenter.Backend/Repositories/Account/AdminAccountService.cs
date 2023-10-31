@@ -52,14 +52,14 @@ namespace StudyCenter.Backend.Repositories.Account
             try
             {
                 var entityData = await _studyDb.Admins.FirstOrDefaultAsync(p => p.Id == id);
-                if (entityData is null)
+                if (entityData is not null)
                 {
                     stateResponse.Code = (int)StatusResponse.Success;
                     stateResponse.Message = nameof(StatusResponse.Success);
                     stateResponse.Data = entityData;
 
                 }
-                if (entityData is not null)
+                if (entityData is null)
                 {
                     stateResponse.Code = (int)StatusResponse.Not_Found;
                     stateResponse.Message = nameof(StatusResponse.Not_Found);
@@ -78,19 +78,114 @@ namespace StudyCenter.Backend.Repositories.Account
             return stateResponse;
         }
 
-        public Task<StateResponse<Admin>> LogInAsync(string login, string password)
+        public async Task<StateResponse<Admin>> LogInAsync(string login, string password)
         {
-            throw new NotImplementedException();
+
+            StateResponse<Admin> state = new StateResponse<Admin>();
+            try
+            {
+                var entityData = await _studyDb.Admins.FirstOrDefaultAsync(p => p.Login == login && p.Password == password);
+
+                if (state is not null)
+                {
+
+                    state.Code = (int)StatusResponse.Success;
+                    state.Message = nameof(StatusResponse.Success);
+                    state.Data = entityData;
+
+                }
+                if (state is null)
+                {
+                    state.Code = (int)StatusResponse.Not_Found;
+                    state.Message = nameof(StatusResponse.Not_Found);
+                    state.Data = entityData;
+
+
+                }
+
+
+            }
+            catch
+            {
+                state.Code = (int)StatusResponse.Server_Eror;
+                state.Message = nameof(StatusResponse.Server_Eror);
+                state.Data = new Admin();
+
+                
+            }
+
+            return state;
         }
 
-        public Task<StateResponse<bool>> LogOutAsync(string login, string password)
+
+        public async Task<StateResponse<bool>> LogOutAsync(string login, string password)
         {
-            throw new NotImplementedException();
+            StateResponse<bool> stateResponse = new StateResponse<bool>();
+            try
+            {
+
+                var entityData = await _studyDb.Admins.FirstOrDefaultAsync(p => p.Login == login && p.Password == password);
+
+                if (entityData is not null)
+                {
+                    _studyDb.Admins.Remove(entityData);
+                    await _studyDb.SaveChangesAsync();
+                    stateResponse.Code = (int)StatusResponse.Success;
+                    stateResponse.Message = nameof(StatusResponse.Success);
+                    stateResponse.Data = true;
+
+                }
+                if (entityData is null)
+                {
+                    stateResponse.Code = (int)StatusResponse.Not_Found;
+                    stateResponse.Message = nameof(StatusResponse.Not_Found);
+                    stateResponse.Data = false;
+
+                }
+
+            }
+            catch
+            {
+                stateResponse.Code = (int)StatusResponse.Server_Eror;
+                stateResponse.Message = nameof(StatusResponse.Server_Eror);
+                stateResponse.Data = false;
+
+            }
+            return stateResponse;
         }
 
-        public Task<StateResponse<Admin>> SignUpAsync(Admin entity)
+        public async Task<StateResponse<Admin>> SignUpAsync(Admin entity)
         {
-            throw new NotImplementedException();
+            StateResponse<Admin> stateResponse = new StateResponse<Admin>();
+            var entityData = await _studyDb.Admins.FirstOrDefaultAsync(p => p.Id == entity.Id);
+            try
+            {
+                if (entityData is not null)
+                {
+
+                    stateResponse.Code = StatusCodes.Status302Found;
+                    stateResponse.Message = nameof(StatusCodes.Status302Found);
+                    stateResponse.Data = entity;
+                }
+                else if(entityData is null && entity is not null)
+                {
+                    await _studyDb.Admins.AddAsync(entity);
+                    await _studyDb.SaveChangesAsync();
+                    stateResponse.Code = (int)StatusResponse.Created;
+                    stateResponse.Message = nameof(StatusResponse.Created);
+                    stateResponse.Data = entity;
+                }
+
+            }
+            catch
+            {
+
+                stateResponse.Code = (int)StatusResponse.Server_Eror;
+                stateResponse.Message = nameof(StatusResponse.Server_Eror);
+                stateResponse.Data = new Admin();
+            }
+            return stateResponse;
+
         }
     }
 }
