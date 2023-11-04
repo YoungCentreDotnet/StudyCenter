@@ -23,15 +23,15 @@ namespace StudyCenter.Backend.Repositories.Account
                 var entityData = await _studyDb.Admins.ToListAsync();
                 if (stateResponse is null)
                 {
-                    stateResponse.Code = (int)StatusResponse.Not_Found;
-                    stateResponse.Message = nameof(StatusResponse.Not_Found);
+                    stateResponse.Code = (int)StatusCodes.Status404NotFound;
+                    stateResponse.Message = nameof(StatusCodes.Status404NotFound);
                     stateResponse.Data = entityData;
 
                 }
                 if (stateResponse is not null)
                 {
-                    stateResponse.Code = (int)StatusResponse.Success;
-                    stateResponse.Message = nameof(StatusResponse.Success);
+                    stateResponse.Code = (int)StatusCodes.Status200OK;
+                    stateResponse.Message = nameof(StatusCodes.Status200OK);
                     stateResponse.Data = entityData;
 
                 }
@@ -39,9 +39,10 @@ namespace StudyCenter.Backend.Repositories.Account
             catch
             {
 
-                stateResponse.Code = (int)StatusResponse.Server_Eror;
-                stateResponse.Message = nameof (StatusResponse.Server_Eror);
-                stateResponse.Data = null;
+                stateResponse.Code = (int)StatusCodes.Status404NotFound;
+                    stateResponse.Message = nameof(StatusCodes.Status404NotFound);
+                    stateResponse.Data = new Admin();
+
             }
             return stateResponse;
         }
@@ -54,15 +55,15 @@ namespace StudyCenter.Backend.Repositories.Account
                 var entityData = await _studyDb.Admins.FirstOrDefaultAsync(p => p.Id == id);
                 if (entityData is not null)
                 {
-                    stateResponse.Code = (int)StatusResponse.Success;
-                    stateResponse.Message = nameof(StatusResponse.Success);
+                    stateResponse.Code = (int)StatusCodes.Status200OK;
+                    stateResponse.Message = nameof(StatusCodes.Status200OK);
                     stateResponse.Data = entityData;
 
                 }
                 if (entityData is null)
                 {
-                    stateResponse.Code = (int)StatusResponse.Not_Found;
-                    stateResponse.Message = nameof(StatusResponse.Not_Found);
+                    stateResponse.Code = (int)StatusCodes.Status404NotFound;
+                    stateResponse.Message = nameof(StatusCodes.Status404NotFound);
                     stateResponse.Data = new Admin();
 
                 }
@@ -70,8 +71,8 @@ namespace StudyCenter.Backend.Repositories.Account
             }
             catch
             {
-                stateResponse.Code = (int)StatusResponse.Server_Eror;
-                stateResponse.Message = nameof(StatusResponse.Server_Eror);
+                stateResponse.Code = (int)StatusCodes.Status500InternalServerError;
+                stateResponse.Message = nameof(StatusCodes.Status500InternalServerError);
                 stateResponse.Data = new Admin();
 
             }
@@ -89,15 +90,15 @@ namespace StudyCenter.Backend.Repositories.Account
                 if (state is not null)
                 {
 
-                    state.Code = (int)StatusResponse.Success;
-                    state.Message = nameof(StatusResponse.Success);
+                    state.Code = (int)StatusCodes.Status200OK;
+                    state.Message = nameof(StatusCodes.Status200OK);
                     state.Data = entityData;
 
                 }
                 if (state is null)
                 {
-                    state.Code = (int)StatusResponse.Not_Found;
-                    state.Message = nameof(StatusResponse.Not_Found);
+                    state.Code = (int)StatusCodes.Status404NotFound;
+                    state.Message = nameof(StatusCodes.Status404NotFound);
                     state.Data = entityData;
 
 
@@ -107,8 +108,8 @@ namespace StudyCenter.Backend.Repositories.Account
             }
             catch
             {
-                state.Code = (int)StatusResponse.Server_Eror;
-                state.Message = nameof(StatusResponse.Server_Eror);
+                state.Code = (int)StatusCodes.Status500InternalServerError;
+                state.Message = nameof(StatusCodes.Status500InternalServerError);
                 state.Data = new Admin();
 
                 
@@ -130,15 +131,15 @@ namespace StudyCenter.Backend.Repositories.Account
                 {
                     _studyDb.Admins.Remove(entityData);
                     await _studyDb.SaveChangesAsync();
-                    stateResponse.Code = (int)StatusResponse.Success;
-                    stateResponse.Message = nameof(StatusResponse.Success);
+                    stateResponse.Code = (int)StatusCodes.Status202Accepted;
+                    stateResponse.Message = nameof(StatusCodes.Status202Accepted);
                     stateResponse.Data = true;
 
                 }
                 if (entityData is null)
                 {
-                    stateResponse.Code = (int)StatusResponse.Not_Found;
-                    stateResponse.Message = nameof(StatusResponse.Not_Found);
+                    stateResponse.Code = (int)StatusCodes.Status202Accepted;
+                    stateResponse.Message = nameof(StatusCodes.Status404NotFound);
                     stateResponse.Data = false;
 
                 }
@@ -146,8 +147,8 @@ namespace StudyCenter.Backend.Repositories.Account
             }
             catch
             {
-                stateResponse.Code = (int)StatusResponse.Server_Eror;
-                stateResponse.Message = nameof(StatusResponse.Server_Eror);
+                stateResponse.Code = (int)StatusCodes.Status500InternalServerError;
+                stateResponse.Message = nameof(StatusCodes.Status500InternalServerError);
                 stateResponse.Data = false;
 
             }
@@ -171,8 +172,8 @@ namespace StudyCenter.Backend.Repositories.Account
                 {
                     await _studyDb.Admins.AddAsync(entity);
                     await _studyDb.SaveChangesAsync();
-                    stateResponse.Code = (int)StatusResponse.Created;
-                    stateResponse.Message = nameof(StatusResponse.Created);
+                    stateResponse.Code = (int)StatusCodes.Status201Created;
+                    stateResponse.Message = nameof(StatusCodes.Status201Created);
                     stateResponse.Data = entity;
                 }
 
@@ -186,6 +187,11 @@ namespace StudyCenter.Backend.Repositories.Account
             }
             return stateResponse;
 
+        }
+
+        public Task<StateResponse<bool>> UpdateAsync(Admin admin)
+        {
+            throw new NotImplementedException();
         }
     }
 }

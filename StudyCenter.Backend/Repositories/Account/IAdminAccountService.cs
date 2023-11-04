@@ -9,5 +9,6 @@ namespace StudyCenter.Backend.Repositories.Account
         Task<StateResponse<bool>> LogOutAsync(string login, string password);
         Task<StateResponse<IEnumerable<Admin>>> GetAllDataAsync();
         Task<StateResponse<Admin>> GetByIdAsync(int id);
+        Task<StateResponse<bool>> UpdateAsync(Admin admin);
     }
 }

@@ -15,6 +15,8 @@ namespace StudyCenter.Backend.Controllers
             _admin = admin;
         }
 
+
+
         [HttpGet]
         public async Task<IActionResult> GetAllAdminData()
         {
