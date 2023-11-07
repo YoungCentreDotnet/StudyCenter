@@ -40,8 +40,8 @@ namespace StudyCenter.Backend.Repositories.Account
             {
 
                 stateResponse.Code = (int)StatusCodes.Status404NotFound;
-                    stateResponse.Message = nameof(StatusCodes.Status404NotFound);
-                    stateResponse.Data = new Admin();
+                stateResponse.Message = nameof(StatusCodes.Status404NotFound);
+                stateResponse.Data = null;
 
             }
             return stateResponse;
