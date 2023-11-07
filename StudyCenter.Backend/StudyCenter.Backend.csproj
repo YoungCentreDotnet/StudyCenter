@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <Folder Include="Repositories\Client\" />
+    <Folder Include="Repositories\Study\" />
     <Folder Include="Repositories\Owner\" />
   </ItemGroup>
 
